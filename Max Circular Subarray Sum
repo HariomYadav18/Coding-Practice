@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    // arr: input array
+    // Function to find maximum circular subarray sum.
+    int circularSubarraySum(vector<int> &arr) {
+
+        // your code here
+        int n = arr.size();
+        int total = 0;
+        int currMax = 0;
+        int currMin = 0;
+        int maxSum = arr[0] , minSum = arr[0];
+        
+        for(int i = 0 ; i<n ; i++){
+            currMax = max(currMax+arr[i], arr[i]);
+            maxSum = max(maxSum, currMax);
+            
+            currMin = min(currMin + arr[i], arr[i]);
+            minSum = min(minSum, currMin);
+            
+            total += arr[i];
+        }
+        
+        int normalSum = maxSum;
+        int circularSum = total - minSum;
+        
+        if(minSum == total) return normalSum;
+        
+        return max(normalSum, circularSum);
+    }
+};
