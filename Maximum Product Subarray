@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    // Function to find maximum product subarray
+    int maxProduct(vector<int> &arr) {
+        // Your Code Here
+        int n = arr.size();
+        
+        int currentMin = arr[0];
+        int currentMax = arr[0];
+        
+        int maxProduct = arr[0];
+        
+        for(int i = 1; i<n ; i++){
+            
+            int temp = max({arr[i], arr[i] * currentMax, arr[i] * currentMin});
+            
+            currentMin = min({arr[i], arr[i]* currentMin, arr[i] * currentMax});
+            
+            currentMax = temp;
+            
+            maxProduct = max(maxProduct, currentMax);
+        }
+        return maxProduct;
+    }
+};
