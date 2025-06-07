@@ -1,0 +1,50 @@
+class Solution {
+
+  string removeLeadingZeros(const string &bin) {
+            
+            size_t firstBit = bin.find('1');
+            return (firstBit == string::npos) ? "0" : bin.substr(firstBit);
+        }
+    
+    public:
+        string addBinary(string &a, string &b) {
+            
+            a = removeLeadingZeros(a);
+            b = removeLeadingZeros(b);
+            
+            int lenA = a.size();
+            int lenB = b.size();
+            
+            if (lenA < lenB) {
+                return addBinary(b, a);
+                
+            }
+            
+            int idxB =  lenB - 1;
+            int extra = 0;
+            
+            for(int idxA = lenA - 1; idxA >= 0; idxA--) {
+                int digitA = a[idxA] - '0';
+                int total = digitA + extra;
+                
+                if(idxB >= 0) {
+                    int digitB = b[idxB] - '0';
+                    total += digitB;
+                    idxB--;
+                    
+                        
+                }
+                
+                int bitResult = total % 2;
+                extra = total / 2;
+                
+                a[idxA] = (char)(bitResult + '0');
+            }
+            if (extra > 0){
+                a = '1' + a;
+            }
+            return a;
+            
+        }
+    };
+
