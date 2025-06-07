@@ -1,0 +1,34 @@
+
+class Solution {
+  public:
+  const int MAX_CHAR = 26;
+    char nonRepeatingChar(string &s) {
+        // Your code here
+        vector<int> charTracker(MAX_CHAR, -1);
+        
+        for(int idx = 0 ; idx < s.length(); ++idx) {
+            int charIndex = s[idx] - 'a';
+            if(charTracker[charIndex] == -1) {
+                charTracker[charIndex] = idx;
+            }
+            else {
+                charTracker[charIndex] = -2;
+            }
+        }
+        
+        int firstNonRepIndex = -1;
+        
+        for(int currentChar = 0; currentChar < MAX_CHAR; ++currentChar) {
+            if (charTracker[currentChar] >= 0) {
+                if(firstNonRepIndex == -1 || 
+                charTracker[currentChar] < charTracker[firstNonRepIndex]) {
+                    firstNonRepIndex = currentChar;
+                }
+            }
+        }
+        
+        return (firstNonRepIndex == -1 ) ? '$' : 
+        s[charTracker[firstNonRepIndex]];
+        
+    }
+};
