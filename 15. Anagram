@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    const int MAX_ALPHABET = 26;
+    
+    // Function is to check whether two strings are anagram of each other or not.
+    
+    bool areAnagrams(string& string1, string& string2) {
+       
+       vector<int> charCount(MAX_ALPHABET, 0);
+       
+        for(char character : string1)
+           charCount[character - 'a']++;
+           
+        for(char character : string2)
+           charCount[character - 'a']--;
+           
+        for(int currentCount : charCount){
+            if(currentCount != 0)
+            return false;
+        }
+        
+        return true;
+        
+    }
+};  
