@@ -1,0 +1,44 @@
+class Solution {
+  public:
+  
+    vector<int> computeLPSArr( string &pat){
+        int patLength = pat.length();
+        vector<int> lpsArr(patLength);
+        
+        lpsArr[0] = 0;
+        int prefixLength = 0;
+        int currIndex = 1;
+        
+        while(currIndex < patLength) {
+            if(pat[currIndex] == pat[prefixLength]) {
+                prefixLength++;
+                lpsArr[currIndex] = prefixLength;
+                currIndex++;
+                
+            }
+            else if(pat[currIndex] != pat[prefixLength]) {
+                if(prefixLength != 0) {
+                    prefixLength = lpsArr[prefixLength - 1];
+                }
+                else{
+                    lpsArr[currIndex] = 0;
+                    currIndex++;
+                }
+            }
+        }
+        return lpsArr;
+    }
+    int minChar(string& s) {
+        // Write your code here
+        int n = s.length();
+        string rev = s;
+        reverse(rev.begin(), rev.end());
+        
+        s = s + "$" + rev;
+        
+        vector<int> lps = computeLPSArr(s);
+        
+        return (n - lps.back());
+        
+    }
+};
