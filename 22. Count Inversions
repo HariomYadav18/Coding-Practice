@@ -1,0 +1,51 @@
+class Solution {
+  public:
+    // Function to count inversions in the array.
+    int countAndMerge(vector<int>& nums, int left, int mid, int right){
+        int n1 = mid - left + 1, n2 = right - mid;
+        
+        vector<int> leftPart(n1), rightPart(n2);
+        for(int i = 0; i<n1; i++)
+            leftPart[i] = nums[i+left];
+        for(int j = 0; j<n2; j++)
+            rightPart[j] = nums[mid+1+j];
+        
+        int invCount = 0;
+        int i =0, j = 0, k = left;
+        while(i<n1 &&j < n2) {
+            if(leftPart[i] <= rightPart[j])
+              nums[k++] = leftPart[i++];
+            else {
+                nums[k++] = rightPart[j++];
+                invCount += (n1-i);
+                
+            }
+        } 
+        
+        while(i < n1)
+            nums[k++] = leftPart[i++];
+        while(j < n2)
+            nums[k++]= rightPart[j++];
+            
+        return invCount;
+        }
+        
+        int countInversionRecursive(vector<int>& nums, int left , int right) {
+            int invCount = 0;
+            if(left < right) {
+                int mid = (left + right)/2;
+                
+                invCount += countInversionRecursive(nums, left, mid);
+                invCount += countInversionRecursive(nums, mid + 1, right);
+                
+                invCount += countAndMerge(nums, left, mid, right);
+                }
+                return invCount;
+        }
+        
+    int inversionCount(vector<int> &nums) {
+        int n = nums.size();
+        return countInversionRecursive(nums, 0 , n-1);
+    }
+    
+};
