@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    int countPairs(vector<int> &arr, int target) {
+        // Code here
+        int n = arr.size();
+        int cnt = 0;
+        
+        unordered_map<int, int> freq;
+        
+        for(int i = 0 ; i<n ; i++){
+            
+            int complement = target - arr[i];
+            
+            if(freq.find(complement) != freq.end()){
+                cnt += freq[complement];
+            }
+            freq[arr[i]]++;
+        }
+        return cnt;
+    }
+};
