@@ -1,0 +1,29 @@
+class Solution {
+  public:
+    int cntSubarrays(vector<int> &arr, int k) {
+        // code here
+        int n = arr.size();
+        
+        unordered_map<int, int> prefixSums;
+        
+        int ans = 0;
+        int curr = 0;
+        
+        for(int i = 0 ; i<n ; i++){
+            curr += arr[i];
+            
+            if(curr == k)
+            ans++;
+            
+            if(prefixSums.find(curr - k) != prefixSums.end())
+            ans += prefixSums[curr - k];
+            
+            prefixSums[curr]++;
+            
+        }
+        return ans;
+        
+        
+        
+    }
+};
