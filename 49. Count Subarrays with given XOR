@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    long subarrayXor(vector<int> &arr, int k) {
+        // code here
+        
+        int n = arr.size();
+        
+        int ans= 0;
+        
+        unordered_map<int, int> mp;
+        
+        int prefXOR = 0;
+        
+        for(int val : arr){
+            prefXOR ^= val;
+            
+            ans = ans + mp[prefXOR ^ k];
+            
+            if(prefXOR == k)
+            ans++;
+            
+            mp[prefXOR]++;
+        }
+        
+        return ans;
+    }
+};
