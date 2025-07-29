@@ -1,0 +1,36 @@
+// User function template for C++
+class Solution {
+  public:
+    vector<int> sumClosest(vector<int>& arr, int target) {
+        // code here
+        int n = arr.size();
+        sort(arr.begin(), arr.end());
+        
+        vector<int> ans;
+        
+        int minDiff = INT_MAX;
+        
+        int left = 0;
+        int right = n - 1;
+        
+        while(left<right){
+            int sum = arr[left] + arr[right];
+            
+            
+            if(abs(target - sum) < minDiff){
+                minDiff = abs(target - sum);
+                ans = {arr[left], arr[right]};
+            }
+            
+            if(sum<target){
+                left++;
+            }else if(sum > target){
+                right--;
+            }
+            else{
+                return ans;
+            }
+        }
+        return ans;
+    }
+};
