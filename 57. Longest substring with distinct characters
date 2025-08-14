@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int longestUniqueSubstr(string &s) {
+        // code here
+        if(s.length() == 0 || s.length() == 1)
+        return s.length();
+        
+        
+        int ans = 0;
+        vector<bool>marked(26,false);
+        
+        int left = 0 , right = 0;
+        while(right < s.length()){
+            while(marked[s[right] - 'a'] == true){
+                marked[s[left] - 'a'] = false;
+                left++;
+            }
+            marked[s[right] - 'a'] = true;
+            
+            ans = max(ans, (right - left + 1));
+            right++;
+        }
+        return ans;
+    }
+};
