@@ -1,0 +1,82 @@
+/*
+  Node is defined as
+    struct node
+    {
+        int data;
+        struct Node* next;
+
+        Node(int x){
+            data = x;
+            next = NULL;
+        }
+
+    }*head;
+*/
+
+class Solution {
+  public:
+  
+    Node* reverseLL(Node* head){
+        Node* prev = nullptr;
+        Node* curr = head;
+        
+        while(curr != nullptr){
+            Node* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+  
+    Node *getKthNode(Node* temp, int k){
+        
+        Node* curr = temp;
+        int count = 1;
+        
+        while(curr != nullptr && count < k){
+            curr = curr->next;
+            count++;
+            
+        }
+        
+        return (count == k) ? curr : nullptr;
+    }
+    
+    Node *reverseKGroup(Node *head, int k) {
+        
+        // code here
+        
+        if(head == nullptr ||  k <= 1) {
+            return head;
+        }
+        Node dummy(0);
+        dummy.next = head;
+        Node* prevGroupEnd = &dummy;
+        Node* curr = head;
+        
+        
+        while(curr != nullptr){
+            
+            Node* kth = getKthNode(curr,k);
+            if(kth == nullptr){
+                prevGroupEnd->next = reverseLL(curr);
+                break;
+            }
+           
+            Node* nextGroupStart = kth->next;
+            
+            kth->next = nullptr;
+            
+            Node* reversedHead = reverseLL(curr);
+            
+            prevGroupEnd->next = reversedHead;
+            curr->next = nextGroupStart;
+            
+            
+            prevGroupEnd= curr;
+            curr=nextGroupStart;
+        }
+        return dummy.next;
+    }
+};
