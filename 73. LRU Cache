@@ -1,0 +1,45 @@
+class LRUCache {
+      int capacity;
+        list<pair<int, int>> cacheList;
+        
+        unordered_map<int, list<pair<int, int>>::iterator> cacheMap;
+  public:
+    
+        // code here
+       
+        
+        LRUCache(int capacity) {
+            this->capacity = capacity;
+        }
+    
+
+    int get(int key) {
+        auto it = cacheMap.find(key);
+        if(it == cacheMap.end()) return -1;
+        
+        cacheList.splice(cacheList.begin(), cacheList, it->second);
+        return it->second->second;
+        // code here
+    }
+
+        
+    void put(int key, int value) {
+        // code here
+        auto it = cacheMap.find(key);
+        if(it != cacheMap.end()){
+            cacheList.splice(cacheList.begin(), cacheList, it->second);
+            it->second->second = value;
+            return;
+        }
+        
+
+        if((int)cacheMap.size() == capacity){
+            auto last = cacheList.back();
+            cacheMap.erase(last.first);
+            cacheList.pop_back();
+        }
+        cacheList.push_front({key, value});
+        cacheMap[key] = cacheList.begin();
+        
+    }
+};
