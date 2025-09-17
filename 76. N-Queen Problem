@@ -1,0 +1,39 @@
+    // User function Template for C++
+    
+    class Solution {
+      public:
+      
+        vector<vector<int>> solutions;
+        vector<int> board;
+        
+        bool isSafe(int col, int row){
+            for(int c = 0 ; c < col ; c++){
+                if(board[c] == row || abs(board[c] - row) == abs(c - col)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        void backtrack(int col, int n){
+            if(col == n){
+                solutions.push_back(board);
+                return;
+            }
+            for(int row = 1 ; row <= n ; row++){
+                if(isSafe(col,row)){
+                    board[col] =row;
+                    backtrack(col + 1, n);
+                }
+            }
+        }
+        
+        vector<vector<int>> nQueen(int n) {
+            // code here
+            
+            board.resize(n);
+            backtrack(0,n);
+            return solutions;
+            
+        }
+    };
