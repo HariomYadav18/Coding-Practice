@@ -1,0 +1,47 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    int kthSmallest(Node *root, int k) {
+        // code here
+        int count = 0;
+        
+        Node* curr = root;
+        while(curr != nullptr){
+            if(curr->left == nullptr){
+                count++;
+                if(count == k) return curr->data;
+                curr = curr->right;
+            }else{
+                Node* prev = curr->left;
+                while(prev->right != nullptr && prev->right != curr){
+                    prev = prev->right;
+                }
+                
+                if(prev->right == nullptr){
+                    prev->right = curr;
+                    curr = curr->left;
+                }else{
+                    count++;
+                    if(count == k) return curr->data;
+                    
+                    prev->right = nullptr;
+                    curr = curr->right;
+                }
+            }
+        }
+        return -1;
+    }
+};
