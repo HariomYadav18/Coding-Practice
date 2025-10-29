@@ -1,0 +1,55 @@
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    bool isBST(Node* root) {
+        // code here
+        Node* curr = root;
+        Node* pre = nullptr;
+        
+        int prevValue = INT_MIN;
+        
+        while(curr != nullptr){
+            if(curr->left == nullptr){
+                if(curr->data <= prevValue){
+                    return false;
+                    
+                }
+                
+                prevValue = curr->data;
+                curr = curr->right;
+            }else{
+                pre = curr->left;
+                while(pre->right != nullptr && pre->right != curr){
+                    pre = pre->right;
+                }
+                
+                if(pre->right == nullptr){
+                    pre->right = curr;
+                    curr = curr->left;
+                }else{
+                    pre->right = nullptr;
+                    if(curr->data <= prevValue){
+                        return false;
+                    }
+                    
+                    prevValue = curr->data;
+                    curr = curr->right;
+                }
+            }
+        }
+        return true;
+    }
+};
