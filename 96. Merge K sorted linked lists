@@ -1,0 +1,47 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    struct Compare {
+        bool operator()(Node* a, Node* b){
+            return a->data > b->data;
+        }
+    };
+    
+    Node* mergeKLists(vector<Node*>& arr) {
+        // code here
+        priority_queue<Node*, vector<Node*>, Compare> minHeap;
+        
+        for(auto node : arr){
+            if(node != NULL) {
+                minHeap.push(node);
+            }
+        }
+        
+        Node* dummy = new Node(-1);
+        Node* tail = dummy;
+        
+        while(!minHeap.empty()){
+            Node* smallest = minHeap.top();
+            minHeap.pop();
+            tail->next = smallest;
+            tail = tail->next;
+            
+            if(smallest->next != NULL){
+                minHeap.push(smallest->next);
+            }
+        }
+        return dummy->next;
+    }
+};
