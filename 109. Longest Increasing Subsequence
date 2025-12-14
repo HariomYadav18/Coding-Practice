@@ -1,0 +1,19 @@
+class Solution {
+  public:
+    int lis(vector<int>& arr) {
+        // code here
+        int n = arr.size();
+        
+        vector<int> res(n,1);
+        
+        for(int i = 1 ; i < n ; i++){
+            for(int prev = 0 ; prev < i ; prev++){
+                if(arr[i] > arr[prev] && res[i] < res[prev] + 1){
+                    res[i] = res[prev] + 1;
+                }
+            }
+        }
+        
+        return *max_element(res.begin(), res.end());
+    }
+};
