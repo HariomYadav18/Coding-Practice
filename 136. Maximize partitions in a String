@@ -1,0 +1,25 @@
+class Solution {
+  public:
+    int maxPartitions(string &s) {
+        // code here
+        int n = s.length();
+        vector<int> last(26, -1);
+        
+        for(int i  = 0; i<n ; i++)
+            
+            last[s[i] - 'a'] = i;
+            int cnt = 0;
+            int a = -1;
+            
+            
+            for(int i = 0 ; i<n ; i++){
+                a=max(last[s[i] - 'a'], a);
+                
+                if(a==i)
+                cnt++;
+            
+            
+        }
+        return cnt;
+    }
+};
