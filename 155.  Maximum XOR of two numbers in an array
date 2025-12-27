@@ -1,0 +1,59 @@
+// User function Template for C++
+class TrieNode {
+    public : 
+        TrieNode* children[2];
+        TrieNode(){
+            children[0] = children[1] = nullptr;
+        }
+};
+
+class Solution {
+  public:
+    int maxXor(vector<int> &arr) {
+        // code here
+        TrieNode* root = new TrieNode();
+        int result = 0;
+        
+        for(int num : arr){
+            int currentMax = getMaxXor(root, num);
+            result = max(result, currentMax);
+            
+            insert(root, num);
+        }
+                
+         
+        return result;
+    }
+    
+    private: 
+         void insert(TrieNode* root, int num){
+             TrieNode* node = root;
+             for(int i = 20; i>=0 ; i--){
+                 int bit = (num >> i) & 1;
+                 if(!node->children[bit]){
+                     node->children[bit] = new TrieNode();
+                }
+                node = node->children[bit];
+            }
+        }
+        
+        int getMaxXor(TrieNode* root, int num){
+            TrieNode* node = root;
+            int maxXor = 0;
+            
+            for(int i = 20 ; i>=0; i--){
+                int bit = (num >> i) & 1;
+                int oppBit = 1 - bit;
+                
+                if(node->children[oppBit]){
+                    maxXor |= (1<<i);
+                    node = node->children[oppBit];
+                }else if(node->children[bit]){
+                    node = node->children[bit];
+                }else{
+                    return 0;
+                }
+            }
+            return maxXor;
+        }
+};
